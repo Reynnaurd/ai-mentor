@@ -1,0 +1,66 @@
+# Node.js dependencies
+node_modules/
+.pnpm-store/
+.pnpm-debug.log
+npm-debug.log
+yarn-error.log
+
+# pnpm workspace files
+.pnpmfile.cjs
+.pnpmfile.js
+
+# VS Code settings
+.history/
+
+
+# Build output
+dist/
+build/
+out/
+coverage/
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+*.swp
+*.bak
+*.tmp
+
+# Monorepo package folders
+**/node_modules/
+**/dist/
+**/build/
+**/.env
+**/.DS_Store
+**/coverage/
+**/.turbo/
+**/.next/
+**/.vercel/
+**/.cache/
+**/.eslintcache
+**/.parcel-cache/
+**/.storybook/
+**/.output/
+**/.nuxt/
+**/.expo/
+**/.expo-shared/
+**/.firebase/
+**/.yalc/
+**/.tmp/
+**/.tsbuildinfo
