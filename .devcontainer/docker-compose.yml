@@ -1,3 +1,4 @@
+# ./.devcontainer/docker-compose.yml
 services:
   dev:
     build:
@@ -5,26 +6,41 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ..:/workspace:cached
+      - dev_node_modules:/workspace/node_modules
+      - frontend_next_cache:/workspace/apps/web/.next
     working_dir: /workspace
     command: sleep infinity
     depends_on:
-      - db
-    environment:
-      # You'll use this for Nest TypeORM config
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/aimvp
-    # VS Code will attach to this service
+      db:
+        condition: service_healthy
+    env_file:
+      - ../.env
+    networks:
+      - appnet
 
   db:
     image: postgres:17-alpine
     restart: unless-stopped
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=aimvp
+    env_file:
+      - ../.env
     ports:
-      - "5432:5432"
+      - '5434:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d aimvp"]
+      # Use $$ so expansion happens INSIDE the container shell
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 5s
       timeout: 3s
       retries: 20
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
+
+volumes:
+  pg_data: {}
+  dev_node_modules: {}
+  frontend_next_cache: {}

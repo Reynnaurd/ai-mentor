@@ -1,19 +1,39 @@
+// ./.devcontainer/devcontainer.json
 {
   "name": "ai-blueprint-mentor",
   "dockerComposeFile": "./docker-compose.yml",
   "service": "dev",
   "workspaceFolder": "/workspace",
   "features": {},
-  "forwardPorts": [
-    3000,
-    4000,
-    5432
-  ],
+  "forwardPorts": [3000, 4000],
   "postCreateCommand": "corepack enable && pnpm -v || true",
   "remoteUser": "node",
-  "runServices": [
-    "db"
-  ],
+  "runServices": ["db"],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Set Prettier as the default formatter
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        // Enable format on save
+        "editor.formatOnSave": true,
+        // Optional: Tame the built-in formatters for JS/TS
+        // to prevent conflicts with Prettier.
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
+      },
+      "extensions": [
+        // This ensures the Prettier extension is always installed in the container
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ]

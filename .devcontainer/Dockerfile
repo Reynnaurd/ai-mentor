@@ -1,3 +1,4 @@
+# ./.devcontainer/Dockerfile
 FROM mcr.microsoft.com/devcontainers/typescript-node:1-22
 
 # Enable Corepack (manages pnpm) and cache pnpm
