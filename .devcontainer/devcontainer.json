@@ -6,8 +6,12 @@
   "workspaceFolder": "/workspace",
   "features": {},
   "forwardPorts": [3000, 4000],
-  "postCreateCommand": "sudo chown -R node:node /workspace/node_modules || true && corepack enable && pnpm -v || true && pnpm i && pnpm db:wait && pnpm migrate:run",
-  "postStartCommand": "sudo chown -R node:node /workspace/node_modules || true",
+  "postCreateCommand": "bash -lc 'mkdir -p /workspace/node_modules /workspace/apps/web/.next && sudo chown -R node:node /workspace/node_modules /workspace/apps/web/.next && corepack enable && pnpm -v || true && pnpm i && pnpm db:wait && pnpm migrate:run'",
+  "postStartCommand": "bash -lc 'mkdir -p /workspace/node_modules /workspace/apps/web/.next && sudo chown -R node:node /workspace/node_modules /workspace/apps/web/.next || true'",
+  "portsAttributes": {
+    "3000": { "label": "Next.js (web)", "onAutoForward": "openBrowser" }, //Use "notify"/"ignore" instead of openBrowser
+    "4000": { "label": "API (NestJS)", "onAutoForward": "openBrowser" } //Use "notify"/"ignore" instead of openBrowser
+  },
   "remoteUser": "node",
   "runServices": ["db"],
   "customizations": {
