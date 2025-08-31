@@ -3,10 +3,21 @@
   "private": true,
   "packageManager": "pnpm@9.0.0",
   "scripts": {
-    "dev:web": "pnpm --filter web dev",
-    "dev:api": "pnpm --filter api start:dev"
+    "dev": "pnpm bootstrap && concurrently -n api,web -c auto \"pnpm -C apps/api start:dev\" \"pnpm -C apps/web dev\"",
+    "bootstrap": "pnpm i && pnpm db:wait && pnpm migrate:run",
+    "db:wait": "wait-on tcp:db:5432",
+    "db:drop": "pnpm -C apps/api run typeorm schema:drop",
+    "db:reset": "pnpm db:drop && pnpm migrate:run",
+    "migrate:generate": "pnpm -C apps/api run migration:generate",
+    "migrate:run": "pnpm -C apps/api run migration:run",
+    "migrate:revert": "pnpm -C apps/api run migration:revert",
+    "start:api": "pnpm -C apps/api start:dev",
+    "start:web": "pnpm -C apps/web dev"
   },
   "devDependencies": {
-    "prettier": "^3.4.2"
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.0.0",
+    "prettier": "^3.4.2",
+    "wait-on": "^8.0.4"
   }
 }

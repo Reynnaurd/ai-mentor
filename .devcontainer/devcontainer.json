@@ -6,7 +6,8 @@
   "workspaceFolder": "/workspace",
   "features": {},
   "forwardPorts": [3000, 4000],
-  "postCreateCommand": "corepack enable && pnpm -v || true",
+  "postCreateCommand": "sudo chown -R node:node /workspace/node_modules || true && corepack enable && pnpm -v || true && pnpm i && pnpm db:wait && pnpm migrate:run",
+  "postStartCommand": "sudo chown -R node:node /workspace/node_modules || true",
   "remoteUser": "node",
   "runServices": ["db"],
   "customizations": {
