@@ -5,9 +5,16 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './config/database.config';
+import { ProjectModule } from './project/project.module';
+import { StepModule } from './step/step.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(databaseConfig)],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(databaseConfig),
+    ProjectModule,
+    StepModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
