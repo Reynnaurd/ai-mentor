@@ -3,6 +3,7 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
+  BadRequestException,
   HttpException,
   NotFoundException,
   ConflictException,
@@ -13,6 +14,7 @@ import {
   ProjectNotFoundError,
   StepNotFoundError,
   DuplicateStepOrderError,
+  InvalidReorderTargetError,
 } from '../errors';
 
 //Services throw domain errors; the filter turns them into consistent HTTP responses.
@@ -43,6 +45,16 @@ export class DomainExceptionFilter implements ExceptionFilter {
         code: 'DUPLICATE_STEP_ORDER',
         message: 'Order must be unique within a project',
         details: { projectId: exception.projectId, order: exception.order },
+      });
+    } else if (exception instanceof InvalidReorderTargetError) {
+      http = new BadRequestException({
+        code: 'INVALID_REORDER_TARGET',
+        message: 'Order must be within 1..N',
+        details: {
+          projectId: exception.projectId,
+          stepId: exception.stepId,
+          order: exception.order,
+        },
       });
     } else if (exception instanceof HttpException) {
       http = exception; // let Nest exceptions pass through

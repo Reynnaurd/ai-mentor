@@ -26,3 +26,14 @@ export class DuplicateStepOrderError extends Error {
     this.name = 'DuplicateStepOrderError';
   }
 }
+
+export class InvalidReorderTargetError extends Error {
+  constructor(
+    public readonly projectId: string,
+    public readonly stepId: string,
+    public readonly order: number,
+  ) {
+    super('INVALID_REORDER_TARGET');
+    this.name = 'InvalidReorderTargetError';
+  }
+}

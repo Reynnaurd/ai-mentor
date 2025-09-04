@@ -15,7 +15,13 @@ import { StepService } from './step.service';
 import { CreateStepDto } from './dto/create-step.dto';
 import { UpdateStepDto } from './dto/update-step.dto';
 import { ListStepsQuery } from './dto/list-steps.query';
-import { ApiTags, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiQuery,
+  ApiOperation,
+  ApiOkResponse,
+} from '@nestjs/swagger';
+import { ReorderStepDto } from './dto/reorder-step.dto';
 
 @ApiTags('steps')
 @Controller('projects/:projectId/steps')
@@ -54,6 +60,17 @@ export class StepController {
     @Body() dto: UpdateStepDto,
   ) {
     return this.service.update(projectId, id, dto);
+  }
+
+  @Patch(':id/reorder')
+  @ApiOperation({ summary: 'Reorder a step within its project' })
+  @ApiOkResponse({ description: 'Updated steps ordered ASC' })
+  reorder(
+    @Param('projectId', new ParseUUIDPipe({ version: '4' })) projectId: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Body() dto: ReorderStepDto,
+  ) {
+    return this.service.reorder(projectId, id, dto.order);
   }
 
   @Delete(':id')
