@@ -15,7 +15,9 @@ import { StepService } from './step.service';
 import { CreateStepDto } from './dto/create-step.dto';
 import { UpdateStepDto } from './dto/update-step.dto';
 import { ListStepsQuery } from './dto/list-steps.query';
+import { ApiTags, ApiQuery } from '@nestjs/swagger';
 
+@ApiTags('steps')
 @Controller('projects/:projectId/steps')
 export class StepController {
   constructor(private readonly service: StepService) {}
@@ -29,6 +31,7 @@ export class StepController {
   }
 
   @Get()
+  @ApiQuery({ name: 'orderBy', enum: ['order', 'createdAt'], required: false })
   findAll(
     @Param('projectId', new ParseUUIDPipe({ version: '4' })) projectId: string,
     @Query() query: ListStepsQuery, //optional
