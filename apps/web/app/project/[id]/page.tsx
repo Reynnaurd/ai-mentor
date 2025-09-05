@@ -1,5 +1,5 @@
 // ./apps/web/app/project/[id]/page.tsx
-import { api } from '../../../lib/api';
+import { api } from '@/lib/api';
 import Link from 'next/link';
 
 type Step = { id: string; title: string; detail: string; order: number };
@@ -13,10 +13,10 @@ type Project = {
 export default async function ProjectPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const awaitedParams = await params;
-  const project = await api<Project>(`/projects/${awaitedParams.id}`);
+  const { id } = await params;
+  const project = await api<Project>(`/projects/${id}`);
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <Link href="/" className="text-sm underline mb-4 inline-block">
