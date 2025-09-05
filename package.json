@@ -13,7 +13,8 @@
     "migrate:revert": "pnpm -C apps/api run migration:revert",
     "start:api": "pnpm -C apps/api start:dev",
     "start:web": "pnpm -C apps/web dev",
-    "fix:perms": "bash -lc 'mkdir -p apps/web/.next node_modules && sudo chown -R node:node apps/web/.next node_modules'"
+    "fix:perms": "bash -lc 'mkdir -p apps/web/.next node_modules && sudo chown -R node:node apps/web/.next node_modules'",
+    "seed:dev": "pnpm -C apps/api run seed"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
