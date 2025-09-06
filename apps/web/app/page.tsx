@@ -1,14 +1,16 @@
-// apps/web/app/page.tsx
+// ./apps/web/app/page.tsx
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import CreateProjectForm from './_components/CreateProjectForm';
 
 type Project = { id: string; title: string; description: string };
 
+// Always fetch fresh on the home page so new projects appear immediately
 export const revalidate = 0;
 
 export default async function Home() {
   const projects = await api<Project[]>('/projects');
+
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <section className="mb-6 border rounded-lg p-4">
